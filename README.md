@@ -6,7 +6,7 @@ Dokku plugin for monorepo setups.
 ## Install
 
 ```
-dokku plugin:install https://gitlab.com/its4company/dokku-custom-monorepo
+dokku plugin:install https://github.com/its4company/dokku-custom-monorepo
 ```
 
 ## Usage
