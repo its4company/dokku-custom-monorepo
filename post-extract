@@ -11,20 +11,12 @@ dokku_log_info2 "Monorepo detected"
 while IFS="=" read -u 10 -a line || [[ -n $line ]]; do
   [[ "${line[0]}" == "#"* || "${line[1]}" == "" ]] && continue
   [[ $APP != *"${line[0]}"* ]] && continue
-
   app_subdir="${line[1]}"
   dokku_log_info2 "Installing from ./$app_subdir"
-
-  # Move the app we want to deploy to a temp directory.
   app_tmp_dir="$(mktemp -d)"
-  mv -T "$TMP_WORK_DIR/$app_subdir" "$app_tmp_dir/app"
-
-  # Delete all files that aren't related to the app we are trying to deploy
-  find "$TMP_WORK_DIR" -mindepth 1 -delete
-
-  # Move the app back into the TMP_WORK_DIR
+  mv -T "$TMP_WORK_DIR" "$app_tmp_dir/app"
+  cp "$TMP_WORK_DIR/$app_subdir/*" "$app_tmp_dir/app"
   find "$app_tmp_dir/app" -mindepth 1 -maxdepth 1 -print0 | xargs -0 mv -t "$TMP_WORK_DIR"
-
   rm -rf "$app_tmp_dir"
   exit
 done 10<"$TMP_WORK_DIR/.dokku-monorepo"
