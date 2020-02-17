@@ -12,21 +12,7 @@ while IFS="=" read -u 10 -a line || [[ -n $line ]]; do
   [[ "${line[0]}" == "#"* || "${line[1]}" == "" ]] && continue
   [[ $APP != *"${line[0]}"* ]] && continue
   app_subdir="${line[1]}"
-  dokku_log_info2 "TMP_WORK_DIR ${TMP_WORK_DIR}"
-  dokku_log_info2 "app_subdir ${app_subdir}"
-  ls -lFa $TMP_WORK_DIR | awk '{ print $9; }' | xargs -i echo {} 1>&2
-  ls -lFa $TMP_WORK_DIR/$app_subdir | awk '{ print $9; }' | xargs -i echo {} 1>&2
   mv $TMP_WORK_DIR/$app_subdir/* $TMP_WORK_DIR/
-  # dokku_log_info2 "Installing from ./$app_subdir"
-  # dokku_log_info2 "Copying project from ${TMP_WORK_DIR} to ${app_tmp_dir}/app"
-  # app_tmp_dir="$(mktemp -d)"
-  # mv -T "$TMP_WORK_DIR" "$app_tmp_dir/app"
-  # dokku_log_info2 "Copying files from ${app_tmp_dir}/${app_subdir}/* to ${app_tmp_dir}/app"
-  # cp "$TMP_WORK_DIR/$app_subdir/*" "$app_tmp_dir/app"
-  # dokku_log_info2 "Moving files back to root dir ${TMP_WORK_DIR}"
-  # find "$app_tmp_dir/app" -mindepth 1 -maxdepth 1 -print0 | xargs -0 mv -t "$TMP_WORK_DIR"
-  # dokku_log_info2 "Removing ${$app_tmp_dir}"
-  # rm -rf "$app_tmp_dir"
   exit
 done 10<"$TMP_WORK_DIR/.dokku-monorepo"
 
