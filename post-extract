@@ -14,7 +14,6 @@ while IFS="=" read -u 10 -a line || [[ -n $line ]]; do
   app_subdir="${line[1]}"
   dokku_log_info2 "TMP_WORK_DIR ${TMP_WORK_DIR}"
   dokku_log_info2 "app_subdir ${app_subdir}"
-  ln
   cp "$TMP_WORK_DIR/$app_subdir/*" "$TMP_WORK_DIR/"
   ls -lFa | awk '{ print $9; }' | xargs -i dokku_log_info2 {}
   # dokku_log_info2 "Installing from ./$app_subdir"
